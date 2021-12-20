@@ -211,7 +211,11 @@ public class WebviewManager : NSObject, WKNavigationDelegate, WKUIDelegate, WKSc
     }
     
     public func position(l: CGFloat, t: CGFloat, w: CGFloat, h: CGFloat) {
-        webview.frame = CGRect(x: l, y: t, width: w, height: h)
+         //CUSTOM BEGIN: Sebi -> Berechnen der Y Pos
+        let view = WebviewManager.rootView()
+        let y = view!.frame.size.height - t - h;
+        webview.frame = CGRect(x: l, y: y, width: w, height: h)
+        //CUSTOM END: Sebi -> Berechnen der Y Pos
     }
     
     public func setDenyList(patterns: Dictionary<String, String>) {
