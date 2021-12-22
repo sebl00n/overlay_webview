@@ -212,8 +212,12 @@ public class WebviewManager : NSObject, WKNavigationDelegate, WKUIDelegate, WKSc
     
     public func position(l: CGFloat, t: CGFloat, w: CGFloat, h: CGFloat) {
          //CUSTOM BEGIN: Sebi -> Berechnen der Y Pos
+
         let view = WebviewManager.rootView()
-        let y = view!.frame.size.height - t - h;
+            if(view == nil) {
+             print("Positioning but view is nil")
+         }
+        let y = (view?.frame.size.height ?? 100) - t - h;
         webview.frame = CGRect(x: l, y: y, width: w, height: h)
         //CUSTOM END: Sebi -> Berechnen der Y Pos
     }
