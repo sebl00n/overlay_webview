@@ -171,7 +171,7 @@ public class WebviewManager : NSObject, WKNavigationDelegate, WKUIDelegate, WKSc
     }
     
     public static func rootView() -> NSView? {
-        return NSApplication.shared.keyWindow?.contentViewController?.view
+        return NSApplication.shared.mainWindow?.contentViewController?.view
     }
     
     public func dispose() {
