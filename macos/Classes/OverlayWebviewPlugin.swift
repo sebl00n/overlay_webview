@@ -171,6 +171,15 @@ public class WebviewManager : NSObject, WKNavigationDelegate, WKUIDelegate, WKSc
     }
     
     public static func rootView() -> NSView? {
+        if(NSApplication.shared.mainWindow == nil){
+            print("Main Window is nil")
+        }
+        else if(NSApplication.shared.mainWindow?.contentViewController == nil){
+            print("ContentViewController is nil")
+        }
+        else if(NSApplication.shared.mainWindow?.contentViewController?.view == nil){
+            print("CV View is nil")
+        }
         return NSApplication.shared.mainWindow?.contentViewController?.view
     }
     
@@ -217,8 +226,12 @@ public class WebviewManager : NSObject, WKNavigationDelegate, WKUIDelegate, WKSc
             if(view == nil) {
              print("Positioning but view is nil")
          }
-        let y = (view?.frame.size.height ?? 100) - t - h;
+        let y = (view?.frame.size.height ?? 100) /*NSScreen.main!.visibleFrame.size.height*/ - t - h;
         webview.frame = CGRect(x: l, y: y, width: w, height: h)
+        print(l)
+        print(y)
+        print(w)
+        print(h)
         //CUSTOM END: Sebi -> Berechnen der Y Pos
     }
     

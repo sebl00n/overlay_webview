@@ -1,5 +1,7 @@
+import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
 import 'package:overlay_webview/overlay_webview.dart';
+import 'package:overlay_webview_example/test_dialog.dart';
 import 'fullpage.dart';
 
 void main() async {
@@ -11,6 +13,14 @@ void main() async {
       navigatorObservers: [],
     ),
   );
+
+  doWhenWindowReady(() {
+    final initialSize = Size(600, 450);
+    appWindow.minSize = initialSize;
+    appWindow.size = initialSize;
+    appWindow.alignment = Alignment.center;
+    appWindow.show();
+  });
 }
 
 class MyApp extends StatefulWidget {
@@ -153,6 +163,15 @@ class _MyAppState extends State<MyApp> {
                 child: Text("Show"),
                 onPressed: () {
                   webView.show();
+                },
+              ),
+              ElevatedButton(
+                child: Text("Show Dialog"),
+                onPressed: () async {
+                  //await WebViewController.disposeAll();
+
+                  await showPropertiesDialog(
+                      context: context, ctrl: this.webView);
                 },
               ),
               ElevatedButton(
