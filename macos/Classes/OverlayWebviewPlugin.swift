@@ -197,6 +197,11 @@ public class WebviewManager : NSObject, WKNavigationDelegate, WKUIDelegate, WKSc
     
     public func hide() {
         webview.removeFromSuperview()
+        if let v = NSApplication.shared.mainWindow?.contentViewController?.view {
+            NSApplication.shared.mainWindow?.selectKeyView(following: v)
+            print("hide")
+        }
+        //webview.dein
     }
     
     public func load(url: String) {

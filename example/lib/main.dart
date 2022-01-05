@@ -88,6 +88,7 @@ class _MyAppState extends State<MyApp> {
                   webView.load("http://speedtest-blr1.digitalocean.com");
                 },
               ),
+              TextField(),
               ElevatedButton(
                 child: Text("Downloads"),
                 onPressed: () {
