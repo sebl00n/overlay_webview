@@ -100,12 +100,12 @@ class DownloadInitEvent extends WebViewEvent {
 
 /// Event fired when page in WebView starts a download (only Android)
 class DownloadStartedEvent extends WebViewEvent {
-  final String? url;
-  DownloadStartedEvent._({this.url});
+  String? url;
+  DownloadStartedEvent._();
 }
 
 /// Event fired when page in WebView cancels a download (only Android)
 class DownloadCancelledEvent extends WebViewEvent {
-  final String? url;
-  DownloadCancelledEvent._({this.url});
+  String? url;
+  DownloadCancelledEvent._();
 }

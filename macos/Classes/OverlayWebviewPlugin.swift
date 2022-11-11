@@ -8,6 +8,8 @@ public class OverlayWebviewPlugin: NSObject, FlutterPlugin, FlutterStreamHandler
     
     var eventSink: FlutterEventSink?
     var webviews = Dictionary<String, WebviewManager>();
+
+    var mainWindow :NSWindow?;
     
     public static func register(with registrar: FlutterPluginRegistrar) {
         _ = OverlayWebviewPlugin(registrar: registrar)
@@ -24,6 +26,11 @@ public class OverlayWebviewPlugin: NSObject, FlutterPlugin, FlutterStreamHandler
     }
     
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
+
+        if(mainWindow == nil) {
+            mainWindow = NSApplication.shared.mainWindow;
+        }
+
         let args = call.arguments as! NSDictionary;
         let webviewID : String = args["id"] != nil ? args["id"] as! String : "";
         
@@ -153,7 +160,7 @@ public class WebviewManager : NSObject, WKNavigationDelegate, WKUIDelegate, WKSc
         let userController:WKUserContentController = WKUserContentController()
         webCfg.userContentController = userController;
         
-        let view = WebviewManager.rootView()
+        let view = plugin.mainWindow?.contentViewController?.view
         var rect : CGRect?
         if view != nil {
             rect = CGRect(x: 0, y: 0, width: view!.frame.size.width, height: view!.frame.size.height)
@@ -170,8 +177,8 @@ public class WebviewManager : NSObject, WKNavigationDelegate, WKUIDelegate, WKSc
         webview.uiDelegate = self
     }
     
-    public static func rootView() -> NSView? {
-        if(NSApplication.shared.mainWindow == nil){
+    public func rootView() -> NSView? {
+        if(self.plugin.mainWindow == nil){
             print("Main Window is nil")
         }
         else if(NSApplication.shared.mainWindow?.contentViewController == nil){
@@ -180,7 +187,7 @@ public class WebviewManager : NSObject, WKNavigationDelegate, WKUIDelegate, WKSc
         else if(NSApplication.shared.mainWindow?.contentViewController?.view == nil){
             print("CV View is nil")
         }
-        return NSApplication.shared.mainWindow?.contentViewController?.view
+        return self.plugin.mainWindow?.contentViewController?.view
     }
     
     public func dispose() {
@@ -188,7 +195,7 @@ public class WebviewManager : NSObject, WKNavigationDelegate, WKUIDelegate, WKSc
     }
     
     public func show() {
-        let view = WebviewManager.rootView()
+        let view = self.rootView()
         if view != nil {
             view!.addSubview(webview)
             webview.isHidden = false
@@ -197,7 +204,7 @@ public class WebviewManager : NSObject, WKNavigationDelegate, WKUIDelegate, WKSc
     
     public func hide() {
         webview.removeFromSuperview()
-        if let v = NSApplication.shared.mainWindow?.contentViewController?.view {
+        if let v = self.plugin.mainWindow?.contentViewController?.view {
             NSApplication.shared.mainWindow?.selectKeyView(following: v)
             print("hide")
         }
@@ -227,7 +234,7 @@ public class WebviewManager : NSObject, WKNavigationDelegate, WKUIDelegate, WKSc
     public func position(l: CGFloat, t: CGFloat, w: CGFloat, h: CGFloat) {
          //CUSTOM BEGIN: Sebi -> Berechnen der Y Pos
 
-        let view = WebviewManager.rootView()
+        let view = self.rootView()
             if(view == nil) {
              print("Positioning but view is nil")
          }
