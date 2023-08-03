@@ -178,15 +178,15 @@ public class WebviewManager : NSObject, WKNavigationDelegate, WKUIDelegate, WKSc
     }
     
     public func rootView() -> NSView? {
-        if(self.plugin.mainWindow == nil){
-            print("Main Window is nil")
+        /*if(self.plugin.mainWindow == nil){
+            //print("Main Window is nil")
         }
         else if(NSApplication.shared.mainWindow?.contentViewController == nil){
-            print("ContentViewController is nil")
+            //print("ContentViewController is nil")
         }
         else if(NSApplication.shared.mainWindow?.contentViewController?.view == nil){
-            print("CV View is nil")
-        }
+            //print("CV View is nil")
+        }*/
         return self.plugin.mainWindow?.contentViewController?.view
     }
     
